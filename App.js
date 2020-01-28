@@ -1,19 +1,47 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
+import { TabView, SceneMap } from "react-native-tab-view";
 
-export default function App() {
+const routes = [
+  { key: "home", name: "Acceuil" },
+  { key: "fills", name: "Pleins" },
+  { key: "maintenance", name: "Entretien" }
+];
+
+const FirstRoute = () => (
+  <View style={[styles.scene, { backgroundColor: "#ff4081" }]} />
+);
+
+const SecondRoute = () => (
+  <View style={[styles.scene, { backgroundColor: "#673ab7" }]} />
+);
+
+const initialLayout = { width: Dimensions.get("window").width };
+
+export default function TabViewExample() {
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: "first", title: "First" },
+    { key: "second", title: "Second" }
+  ]);
+
+  const renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={initialLayout}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  scene: {
+    flex: 1
+  }
 });

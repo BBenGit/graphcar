@@ -1,26 +1,71 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
-import { Icon } from "react-native-elements";
+import { View, Text } from "react-native";
+import { Icon, ListItem } from "react-native-elements";
 import FAB from "react-native-fab";
+import AddFillModal from "../modal/add_fill";
+import styles from "./style";
 
-const FillsRoute = () => (
-  <View style={styles.scene}>
-    <FAB
-      buttonColor="#F4FF81"
-      iconTextColor="#FFFFFF"
-      onClickAction={() => {
-        console.log("FAB pressed");
-      }}
-      visible={true}
-      iconTextComponent={<Icon name="add" />}
-    />
-  </View>
-);
+import { connect } from "react-redux";
 
-const styles = StyleSheet.create({
-  scene: {
-    flex: 1
+class FillsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAddFillModalVisible: false
+    };
   }
-});
 
-export default FillsRoute;
+  toggleAddFillModal = () => {
+    this.setState({
+      isAddFillModalVisible: !this.state.isAddFillModalVisible
+    });
+  };
+
+  render() {
+    return (
+      <View style={styles.scene}>
+        <FAB
+          buttonColor="#F4FF81"
+          iconTextColor="#FFFFFF"
+          onClickAction={() => {
+            this.toggleAddFillModal();
+          }}
+          visible={true}
+          iconTextComponent={<Icon name="add" />}
+        />
+        <AddFillModal
+          printModal={this.state.isAddFillModalVisible}
+          onDisapearCallback={this.toggleAddFillModal}
+        />
+        {this.props.fills.map(item => (
+          <ListItem
+            key={item.mileage * item.amount * item.quantity}
+            title={item.date}
+            subtitle={
+              <View style={styles.fillInfosContainer}>
+                <Text style={[styles.fillInfos, styles.fillInfosLeft]}>
+                  prix/litre : {item.pricePerLitre} €
+                </Text>
+                <Text style={[styles.fillInfos, styles.fillInfosCenter]}>
+                  total : {item.amount} €
+                </Text>
+                <Text style={[styles.fillInfos, styles.fillInfosRight]}>
+                  conso : {item.consumption ? item.consumption : "- "}l
+                </Text>
+              </View>
+            }
+            bottomDivider
+          />
+        ))}
+      </View>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    fills: state.fills
+  };
+};
+
+export default connect(mapStateToProps)(FillsPage);

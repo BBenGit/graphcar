@@ -44,6 +44,7 @@ class AddMaintenanceModal extends React.Component {
     this.props.onDisapearCallback();
   };
 
+  // todo add price
   render() {
     return (
       <Modal

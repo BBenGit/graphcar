@@ -6,7 +6,8 @@ export default styles = StyleSheet.create({
     flex: 1
   },
   fillInfosContainer: {
-    flexDirection: "row"
+    flexDirection: "row",
+    paddingTop: 10
   },
   fillInfos: {
     flex: 1,
@@ -20,5 +21,8 @@ export default styles = StyleSheet.create({
   },
   fillInfosRight: {
     textAlign: "right"
+  },
+  fillTitle: {
+    fontSize: 20
   }
 });

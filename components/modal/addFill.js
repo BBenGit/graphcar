@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { Input, Button } from "react-native-elements";
 import Modal from "react-native-modal";
-import { style } from "./style";
+import { styles } from "./style";
 
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
@@ -24,18 +24,6 @@ class AddFillModal extends React.Component {
       inputQuantity: ""
     };
   }
-
-  setInputValue = content => {
-    this.setState({ input: content });
-  };
-
-  validateInput = () => {
-    if (Boolean(this.state.input)) {
-      this.props.onActionOnTaskCallback(this.state.input);
-      this.setState({ input: "" });
-    }
-    this.props.onDisapearCallback();
-  };
 
   addFill = () => {
     if (
@@ -78,8 +66,9 @@ class AddFillModal extends React.Component {
         backdropTransiitonOutTiming={150}
         onBackdropPress={() => this.props.onDisapearCallback()}
       >
-        <View style={style.modal}>
+        <View style={styles.modal}>
           <Input
+            containerStyle={styles.input}
             label="kilométrage."
             placeholder="36890"
             onChangeText={inputMileage => this.setState({ inputMileage })}
@@ -89,6 +78,7 @@ class AddFillModal extends React.Component {
           />
 
           <Input
+            containerStyle={styles.input}
             label="montant."
             placeholder="26,75"
             onChangeText={inputAmount => this.setState({ inputAmount })}
@@ -98,6 +88,7 @@ class AddFillModal extends React.Component {
           />
 
           <Input
+            containerStyle={styles.input}
             label="quantité."
             placeholder="50,43"
             onChangeText={inputQuantity => this.setState({ inputQuantity })}
@@ -105,12 +96,12 @@ class AddFillModal extends React.Component {
             rightIcon={<Text>L</Text>}
             keyboardType={"numeric"}
           />
-          <View style={style.buttonViewContainer}>
+          <View style={styles.buttonViewContainer}>
             <Button
               title="Ajouter plein"
               onPress={this.addFill}
-              buttonStyle={style.button}
-              titleStyle={style.buttonTitle}
+              buttonStyle={styles.button}
+              titleStyle={styles.buttonTitle}
               raised
             />
           </View>

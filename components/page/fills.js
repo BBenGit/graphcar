@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text } from "react-native";
 import { Icon, ListItem } from "react-native-elements";
 import FAB from "react-native-fab";
-import AddFillModal from "../modal/add_fill";
+import AddFillModal from "../modal/addFill";
 import styles from "./style";
 
 import { connect } from "react-redux";
@@ -39,8 +39,12 @@ class FillsPage extends React.Component {
         />
         {this.props.fills.map(item => (
           <ListItem
-            key={item.mileage * item.amount * item.quantity}
-            title={item.date}
+            key={item.mileage}
+            title={
+              <Text style={styles.fillTitle}>
+                {item.date} - {item.mileage}km
+              </Text>
+            }
             subtitle={
               <View style={styles.fillInfosContainer}>
                 <Text style={[styles.fillInfos, styles.fillInfosLeft]}>

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import * as colors from "../../style/colors";
 
-export const style = StyleSheet.create({
+export const styles = StyleSheet.create({
   modal: {
     backgroundColor: "white",
     padding: "5%"
@@ -17,5 +17,8 @@ export const style = StyleSheet.create({
   },
   buttonTitle: {
     color: colors.deepGray
+  },
+  input: {
+    marginBottom: 20
   }
 });

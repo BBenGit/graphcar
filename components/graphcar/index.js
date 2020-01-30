@@ -4,9 +4,9 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { Header } from "react-native-elements";
 import styles from "./style";
 
-import HomeRoute from "../page/home";
+import HomePage from "../page/home";
 import FillsPage from "../page/fills";
-import MaintenanceRoute from "../page/maintenance";
+import MaintenancePage from "../page/maintenance";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -36,9 +36,9 @@ export default class GraphCar extends React.Component {
   );
 
   renderScene = SceneMap({
-    home: HomeRoute,
+    home: HomePage,
     fills: FillsPage,
-    maintenance: MaintenanceRoute
+    maintenance: MaintenancePage
   });
 
   render() {

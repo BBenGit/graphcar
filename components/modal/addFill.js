@@ -34,7 +34,7 @@ class AddFillModal extends React.Component {
       let fillInfos = {
         date: moment().format("LL"),
         mileage: parseInt(this.state.inputMileage),
-        amount: parseFloat(this.state.inputAmount),
+        amount: parseFloat(this.state.inputAmount), // fix float with comma does not works
         quantity: parseFloat(this.state.inputQuantity),
         pricePerLitre:
           Math.round(

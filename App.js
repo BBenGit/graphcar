@@ -1,17 +1,27 @@
 import React from "react";
-import { Text } from "react-native";
-import { createStore } from "redux";
+import { View, ActivityIndicator } from "react-native";
 import { Provider } from "react-redux";
-import reducer from "./store/reducer";
 import GraphCar from "./components/graphcar";
-
-const store = createStore(reducer);
+import { getStore, getPersistor } from "./store/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default class App extends React.Component {
-  render() {
+  renderLoading = () => {
     return (
-      <Provider store={store}>
-        <GraphCar />
+      <View>
+        <ActivityIndicator size={"large"} />
+      </View>
+    );
+  };
+
+  render() {
+    const myStore = getStore();
+    const myPersistor = getPersistor();
+    return (
+      <Provider store={myStore}>
+        <PersistGate persistor={myPersistor} loading={this.renderLoading()}>
+          <GraphCar />
+        </PersistGate>
       </Provider>
     );
   }

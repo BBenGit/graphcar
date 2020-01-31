@@ -8,7 +8,7 @@ const initialState = {
 };
 
 computeConsumption = (fillQuantity, fillDistance) => {
-  return Math.round((((100 * fillQuantity) / fillDistance) * 100) / 100);
+  return Math.round(((100 * fillQuantity) / fillDistance) * 100) / 100;
 };
 
 addFill = (state, fillInfos) => {

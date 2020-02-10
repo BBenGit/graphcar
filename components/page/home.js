@@ -3,7 +3,7 @@ import { View, Dimensions } from "react-native";
 import styles from "./styles";
 import { connect } from "react-redux";
 import FAB from "react-native-fab";
-import { Icon, Text, Divider } from "react-native-elements";
+import { Icon, Text, Card } from "react-native-elements";
 import { AreaChart, Grid, YAxis } from "react-native-svg-charts";
 import { Path } from "react-native-svg";
 import * as shape from "d3-shape";
@@ -50,62 +50,75 @@ class HomePage extends React.Component {
 
         {this.state.prices.length > 0 ? (
           <View>
-            <Text
-              style={{ color: colors.deepGray, marginTop: 10, marginLeft: 10 }}
-            >
-              Prix du carburant
-            </Text>
-            <View style={{ height: 200, flexDirection: "row" }}>
-              <YAxis
-                data={this.state.prices}
-                contentInset={{ top: 20, bottom: 20 }}
-                svg={{
-                  fill: "grey",
-                  fontSize: 10
+            <Card>
+              <Text
+                style={{
+                  color: colors.deepGray,
+                  marginLeft: 10
                 }}
-                numberOfTicks={10}
-                formatLabel={value => `${value}€`}
-                style={{ paddingLeft: 10 }}
-              />
-              <AreaChart
-                style={{ flex: 1, marginLeft: 16 }}
-                data={this.state.prices}
-                svg={{ fill: colors.secondaryAccentTransparent }}
-                contentInset={{ top: 20, bottom: 20 }}
-                curve={shape.curveNatural}
               >
-                <Grid />
-                <Line />
-              </AreaChart>
-            </View>
-            <Text
-              style={{ color: colors.deepGray, marginTop: 50, marginLeft: 10 }}
-            >
-              Consomation
-            </Text>
-            <View style={{ height: 200, flexDirection: "row" }}>
-              <YAxis
-                data={this.state.consumptions}
-                contentInset={{ top: 20, bottom: 20 }}
-                svg={{
-                  fill: "grey",
-                  fontSize: 10
+                Prix du carburant
+              </Text>
+              <View style={{ height: 200, flexDirection: "row" }}>
+                <YAxis
+                  data={this.state.prices}
+                  contentInset={{ top: 20, bottom: 20 }}
+                  svg={{
+                    fill: "grey",
+                    fontSize: 10
+                  }}
+                  numberOfTicks={10}
+                  formatLabel={value => `${value}€`}
+                  style={{ paddingLeft: 10 }}
+                />
+                <AreaChart
+                  style={{ flex: 1, marginLeft: 16 }}
+                  data={this.state.prices}
+                  svg={{ fill: colors.secondaryAccentTransparent }}
+                  contentInset={{ top: 20, bottom: 20 }}
+                  curve={shape.curveNatural}
+                >
+                  <Grid />
+                  <Line />
+                </AreaChart>
+              </View>
+            </Card>
+
+            <Card>
+              <Text
+                style={{
+                  color: colors.deepGray,
+                  marginLeft: 10
                 }}
-                numberOfTicks={10}
-                formatLabel={value => `${value}€`}
-                style={{ paddingLeft: 10 }}
-              />
-              <AreaChart
-                style={{ flex: 1, marginLeft: 16 }}
-                data={this.state.consumptions}
-                svg={{ fill: colors.secondaryAccentTransparent }}
-                contentInset={{ top: 20, bottom: 20 }}
-                curve={shape.curveNatural}
               >
-                <Grid />
-                <Line />
-              </AreaChart>
-            </View>
+                Consomation
+              </Text>
+              <View style={{ height: 200, flexDirection: "row" }}>
+                <YAxis
+                  data={this.state.consumptions}
+                  contentInset={{ top: 20, bottom: 20 }}
+                  svg={{
+                    fill: "grey",
+                    fontSize: 10
+                  }}
+                  numberOfTicks={10}
+                  formatLabel={value => `${value}€`}
+                  style={{ paddingLeft: 10 }}
+                />
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                  <AreaChart
+                    style={{ flex: 1, marginLeft: 16 }}
+                    data={this.state.consumptions}
+                    svg={{ fill: colors.secondaryAccentTransparent }}
+                    contentInset={{ top: 20, bottom: 20 }}
+                    curve={shape.curveNatural}
+                  >
+                    <Grid />
+                    <Line />
+                  </AreaChart>
+                </View>
+              </View>
+            </Card>
           </View>
         ) : (
           <Text

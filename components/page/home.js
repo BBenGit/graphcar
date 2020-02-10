@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Dimensions } from "react-native";
-import styles from "./style";
+import styles from "./styles";
 import { connect } from "react-redux";
 import FAB from "react-native-fab";
 import { Icon, Text, Divider } from "react-native-elements";

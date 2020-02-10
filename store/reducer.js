@@ -2,9 +2,7 @@ import * as actions from "./actions";
 
 const initialState = {
   fills: [],
-  maintenances: [],
-  fillToEdit: null,
-  maintenanceToEdit: null
+  maintenances: []
 };
 
 computeConsumption = (fillQuantity, fillDistance) => {

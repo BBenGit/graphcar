@@ -1,11 +1,12 @@
 import * as React from "react";
 import { View, Text } from "react-native";
-import { Icon, ListItem } from "react-native-elements";
+import { Icon, ListItem, colors } from "react-native-elements";
 import FAB from "react-native-fab";
 import AddFillModal from "../modal/addFill";
-import styles from "./style";
+import styles from "./styles";
 
 import { connect } from "react-redux";
+import { black } from "../../style/colors";
 
 class FillsPage extends React.Component {
   constructor(props) {
@@ -24,15 +25,6 @@ class FillsPage extends React.Component {
   render() {
     return (
       <View style={styles.scene}>
-        <FAB
-          buttonColor="#F4FF81"
-          iconTextColor="#FFFFFF"
-          onClickAction={() => {
-            this.toggleAddFillModal();
-          }}
-          visible={true}
-          iconTextComponent={<Icon name="add" />}
-        />
         <AddFillModal
           printModal={this.state.isAddFillModalVisible}
           onDisapearCallback={this.toggleAddFillModal}
@@ -41,26 +33,45 @@ class FillsPage extends React.Component {
           <ListItem
             key={item.mileage}
             title={
-              <Text style={styles.fillTitle}>
-                {item.date} - {item.mileage}km
-              </Text>
-            }
-            subtitle={
-              <View style={styles.fillInfosContainer}>
-                <Text style={[styles.fillInfos, styles.fillInfosLeft]}>
-                  prix/litre : {item.pricePerLitre} €
-                </Text>
-                <Text style={[styles.fillInfos, styles.fillInfosCenter]}>
-                  total : {item.amount} €
-                </Text>
-                <Text style={[styles.fillInfos, styles.fillInfosRight]}>
-                  conso : {item.consumption ? item.consumption : "- "}l
-                </Text>
+              <View style={styles.row}>
+                <View style={styles.flex3}>
+                  <Text style={styles.fontSize20}>{item.mileage} km</Text>
+                  <Text style={styles.grey}>{item.date}</Text>
+                </View>
+                <View style={styles.fillDescLeft}>
+                  <Text style={styles.textAlignRight}>
+                    {item.pricePerLitre}
+                  </Text>
+                  <Text style={styles.textAlignRight}>{item.amount}</Text>
+                  <Text style={styles.textAlignRight}>
+                    {item.consumption ? item.consumption : "? "}
+                  </Text>
+                </View>
+                <View style={styles.fillDescRight}>
+                  <Text style={[styles.grey, styles.textAlignLeft]}>
+                    | € / litre
+                  </Text>
+                  <Text style={[styles.grey, styles.textAlignLeft]}>
+                    | € total
+                  </Text>
+                  <Text style={[styles.grey, styles.textAlignLeft]}>
+                    | L / 100km
+                  </Text>
+                </View>
               </View>
             }
             bottomDivider
           />
         ))}
+        <FAB
+          buttonColor="#F4FF81"
+          iconTextColor="#FFFFFF"
+          onClickAction={() => {
+            this.toggleAddFillModal();
+          }}
+          visible
+          iconTextComponent={<Icon name="add" />}
+        />
       </View>
     );
   }

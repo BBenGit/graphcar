@@ -2,7 +2,8 @@ import React from "react";
 import { View, Text } from "react-native";
 import { Input, Button } from "react-native-elements";
 import Modal from "react-native-modal";
-import { styles } from "./style";
+import { styles } from "./styles";
+import DatePicker from "react-native-datepicker";
 
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
@@ -21,14 +22,15 @@ class AddMaintenanceModal extends React.Component {
     this.state = {
       inputMileage: "",
       inputTitle: "",
-      inputDescription: ""
+      inputDescription: "",
+      inputDate: moment().format("DD/MM/YYYY")
     };
   }
 
   addMaintenance = () => {
     if (Boolean(this.state.inputMileage) & Boolean(this.state.inputTitle)) {
       let maintenanceInfos = {
-        date: moment().format("LL"),
+        date: this.state.inputDate,
         mileage: parseInt(this.state.inputMileage),
         title: this.state.inputTitle,
         description: this.state.inputDescription
@@ -58,6 +60,37 @@ class AddMaintenanceModal extends React.Component {
         onBackdropPress={() => this.props.onDisapearCallback()}
       >
         <View style={styles.modal}>
+          <Input
+            containerStyle={styles.input}
+            label="date."
+            inputComponent={() => (
+              <DatePicker
+                style={{
+                  width: "100%"
+                }}
+                customStyles={{
+                  dateInput: {
+                    borderWidth: 0,
+                    alignItems: "flex-start"
+                  },
+                  dateText: {
+                    fontSize: 18
+                  },
+                  dateIcon: {
+                    marginRight: 0
+                  }
+                }}
+                date={this.state.inputDate}
+                mode="date"
+                format="DD/MM/YYYY"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                // showIcon={false}
+                onDateChange={inputDate => this.setState({ inputDate })}
+              />
+            )}
+          />
+
           <Input
             containerStyle={styles.input}
             label="titre."

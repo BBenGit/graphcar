@@ -1,8 +1,9 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Input, Button, colors } from "react-native-elements";
 import Modal from "react-native-modal";
-import { styles } from "./style";
+import { styles } from "./styles";
+import DatePicker from "react-native-datepicker";
 
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
@@ -21,7 +22,8 @@ class AddFillModal extends React.Component {
     this.state = {
       inputMileage: "",
       inputAmount: "",
-      inputQuantity: ""
+      inputQuantity: "",
+      inputDate: moment().format("DD/MM/YYYY")
     };
   }
 
@@ -32,9 +34,9 @@ class AddFillModal extends React.Component {
       Boolean(this.state.inputQuantity)
     ) {
       let fillInfos = {
-        date: moment().format("LL"),
+        date: this.state.inputDate,
         mileage: parseInt(this.state.inputMileage),
-        amount: parseFloat(this.state.inputAmount), // fix float with comma does not works
+        amount: parseFloat(this.state.inputAmount.replace(",", ".")),
         quantity: parseFloat(this.state.inputQuantity),
         pricePerLitre:
           Math.round(
@@ -49,7 +51,8 @@ class AddFillModal extends React.Component {
     this.setState({
       inputMileage: "",
       inputAmount: "",
-      inputQuantity: ""
+      inputQuantity: "",
+      inputDate: ""
     });
     this.props.onDisapearCallback();
   };
@@ -69,6 +72,37 @@ class AddFillModal extends React.Component {
         <View style={styles.modal}>
           <Input
             containerStyle={styles.input}
+            label="date."
+            inputComponent={() => (
+              <DatePicker
+                style={{
+                  width: "100%"
+                }}
+                customStyles={{
+                  dateInput: {
+                    borderWidth: 0,
+                    alignItems: "flex-start"
+                  },
+                  dateText: {
+                    fontSize: 18
+                  },
+                  dateIcon: {
+                    marginRight: 0
+                  }
+                }}
+                date={this.state.inputDate}
+                mode="date"
+                format="DD/MM/YYYY"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                // showIcon={false}
+                onDateChange={inputDate => this.setState({ inputDate })}
+              />
+            )}
+          />
+
+          <Input
+            containerStyle={styles.input}
             label="kilométrage."
             placeholder="36890"
             onChangeText={inputMileage => this.setState({ inputMileage })}
@@ -80,7 +114,7 @@ class AddFillModal extends React.Component {
           <Input
             containerStyle={styles.input}
             label="montant."
-            placeholder="26,75"
+            placeholder="51.45"
             onChangeText={inputAmount => this.setState({ inputAmount })}
             value={this.state.inputAmount}
             rightIcon={<Text>€</Text>}
@@ -90,7 +124,7 @@ class AddFillModal extends React.Component {
           <Input
             containerStyle={styles.input}
             label="quantité."
-            placeholder="50,43"
+            placeholder="37.60"
             onChangeText={inputQuantity => this.setState({ inputQuantity })}
             value={this.state.inputQuantity}
             rightIcon={<Text>L</Text>}

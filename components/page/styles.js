@@ -6,9 +6,7 @@ export default styles = StyleSheet.create({
     flex: 1
   },
   fillInfosContainer: {
-    flexDirection: "row",
-    paddingTop: 10,
-    alignItems: "baseline"
+    paddingTop: 10
   },
   fillInfos: {
     flex: 1,

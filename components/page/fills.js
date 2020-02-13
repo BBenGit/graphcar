@@ -6,7 +6,6 @@ import AddFillModal from "../modal/addFill";
 import styles from "./styles";
 
 import { connect } from "react-redux";
-import { black } from "../../style/colors";
 
 class FillsPage extends React.Component {
   constructor(props) {
@@ -30,40 +29,42 @@ class FillsPage extends React.Component {
           onDisapearCallback={this.toggleAddFillModal}
         />
         <ScrollView>
-          {this.props.fills.map(item => (
-            <ListItem
-              key={item.mileage}
-              title={
-                <View style={styles.row}>
-                  <View style={styles.flex3}>
-                    <Text style={styles.fontSize20}>{item.mileage} km</Text>
-                    <Text style={styles.grey}>{item.date}</Text>
+          {this.props.fills
+            .filter(f => f.vehicle === this.props.selectedVehicle)
+            .map((item, index) => (
+              <ListItem
+                key={index}
+                title={
+                  <View style={styles.row}>
+                    <View style={styles.flex3}>
+                      <Text style={styles.fontSize20}>{item.mileage} km</Text>
+                      <Text style={styles.grey}>{item.date}</Text>
+                    </View>
+                    <View style={styles.fillDescLeft}>
+                      <Text style={styles.textAlignRight}>
+                        {item.pricePerLitre}
+                      </Text>
+                      <Text style={styles.textAlignRight}>{item.amount}</Text>
+                      <Text style={styles.textAlignRight}>
+                        {item.consumption ? item.consumption : "? "}
+                      </Text>
+                    </View>
+                    <View style={styles.fillDescRight}>
+                      <Text style={[styles.grey, styles.textAlignLeft]}>
+                        | € / litre
+                      </Text>
+                      <Text style={[styles.grey, styles.textAlignLeft]}>
+                        | € total
+                      </Text>
+                      <Text style={[styles.grey, styles.textAlignLeft]}>
+                        | L / 100km
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.fillDescLeft}>
-                    <Text style={styles.textAlignRight}>
-                      {item.pricePerLitre}
-                    </Text>
-                    <Text style={styles.textAlignRight}>{item.amount}</Text>
-                    <Text style={styles.textAlignRight}>
-                      {item.consumption ? item.consumption : "? "}
-                    </Text>
-                  </View>
-                  <View style={styles.fillDescRight}>
-                    <Text style={[styles.grey, styles.textAlignLeft]}>
-                      | € / litre
-                    </Text>
-                    <Text style={[styles.grey, styles.textAlignLeft]}>
-                      | € total
-                    </Text>
-                    <Text style={[styles.grey, styles.textAlignLeft]}>
-                      | L / 100km
-                    </Text>
-                  </View>
-                </View>
-              }
-              bottomDivider
-            />
-          ))}
+                }
+                bottomDivider
+              />
+            ))}
         </ScrollView>
         <FAB
           buttonColor="#F4FF81"
@@ -81,7 +82,8 @@ class FillsPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    fills: state.fills
+    fills: state.fills,
+    selectedVehicle: state.selectedVehicle
   };
 };
 

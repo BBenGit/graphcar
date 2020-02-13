@@ -1,20 +1,25 @@
 import * as React from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, Text } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import { Header } from "react-native-elements";
+import { Header, Icon } from "react-native-elements";
 import styles from "./style";
+import * as colors from "../../style/colors";
 
 import HomePage from "../page/home";
 import FillsPage from "../page/fills";
 import MaintenancePage from "../page/maintenance";
+import VehicleSelection from "../modal/vehicleSelection";
+
+import { connect } from "react-redux";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
-export default class GraphCar extends React.Component {
+class GraphCar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       index: 0,
+      isVehicleSelectionModalVisible: false,
       routes: [
         { key: "home", name: "acceuil" },
         { key: "fills", name: "pleins" },
@@ -22,6 +27,12 @@ export default class GraphCar extends React.Component {
       ]
     };
   }
+
+  toggleVehicleSelectionModal = () => {
+    this.setState({
+      isVehicleSelectionModalVisible: !this.state.isVehicleSelectionModalVisible
+    });
+  };
 
   handleIndexChange = index => this.setState({ index });
 
@@ -45,7 +56,24 @@ export default class GraphCar extends React.Component {
     return (
       <View style={styles.scene}>
         <Header
-          centerComponent={{ text: "graphcar." }}
+          leftComponent={
+            <Icon
+              name="directions-car"
+              reverse
+              raised
+              size="16"
+              color={colors.deepGray}
+              reverseColor={colors.primaryAccent}
+              onPress={this.toggleVehicleSelectionModal}
+              containerStyle={{ marginLeft: 10 }}
+            />
+          }
+          centerComponent={{
+            text: this.props.vehicles[this.props.selectedVehicle]
+              ? this.props.vehicles[this.props.selectedVehicle].title
+              : "graphcar."
+          }}
+          selected
           backgroundColor="#ECEFF1"
         />
         <TabView
@@ -55,7 +83,20 @@ export default class GraphCar extends React.Component {
           onIndexChange={this.handleIndexChange}
           initialLayout={initialLayout}
         />
+        <VehicleSelection
+          printModal={this.state.isVehicleSelectionModalVisible}
+          onDisapearCallback={this.toggleVehicleSelectionModal}
+        />
       </View>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    vehicles: state.vehicles,
+    selectedVehicle: state.selectedVehicle
+  };
+};
+
+export default connect(mapStateToProps)(GraphCar);

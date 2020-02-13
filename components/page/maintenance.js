@@ -30,56 +30,58 @@ class MaintenancePage extends React.Component {
           onDisapearCallback={this.toggleAddMaintenanceModal}
         />
         <ScrollView>
-          {this.props.maintenances.map((item, index) => (
-            <ListItem
-              key={index}
-              title={
-                <View style={{ flexDirection: "row" }}>
-                  <View
-                    style={{
-                      borderBottomColor: colors.deepGray,
-                      borderBottomWidth: 1
-                    }}
-                  >
-                    <Text style={styles.fontSize20}>{item.date}</Text>
-                  </View>
-                  <Text style={styles.fontSize20}> / </Text>
-                  <Text style={[styles.fontSize20, styles.grey]}>
-                    {" "}
-                    {item.mileage}km
-                  </Text>
-                  <View style={{ flex: 1, alignItems: "flex-end" }}>
+          {this.props.maintenances
+            .filter(m => m.vehicle === this.props.selectedVehicle)
+            .map((item, index) => (
+              <ListItem
+                key={index}
+                title={
+                  <View style={{ flexDirection: "row" }}>
                     <View
                       style={{
-                        backgroundColor: colors.deepGray,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderTopLeftRadius: 10,
-                        borderBottomRightRadius: 10,
-                        paddingVertical: 2,
-                        paddingHorizontal: 8
+                        borderBottomColor: colors.deepGray,
+                        borderBottomWidth: 1
                       }}
                     >
-                      <Text style={{ color: "white", fontSize: 18 }}>
-                        {item.price} €
-                      </Text>
+                      <Text style={styles.fontSize20}>{item.date}</Text>
+                    </View>
+                    <Text style={styles.fontSize20}> / </Text>
+                    <Text style={[styles.fontSize20, styles.grey]}>
+                      {" "}
+                      {item.mileage}km
+                    </Text>
+                    <View style={{ flex: 1, alignItems: "flex-end" }}>
+                      <View
+                        style={{
+                          backgroundColor: colors.deepGray,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderTopLeftRadius: 10,
+                          borderBottomRightRadius: 10,
+                          paddingVertical: 2,
+                          paddingHorizontal: 8
+                        }}
+                      >
+                        <Text style={{ color: "white", fontSize: 18 }}>
+                          {item.price} €
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              }
-              subtitle={
-                <View style={styles.fillInfosContainer}>
-                  <Text>
-                    <Text style={styles.maintenanceTitle}>{item.title} </Text>
-                    <Text style={styles.maintenanceDescription}>
-                      {item.description}
+                }
+                subtitle={
+                  <View style={styles.fillInfosContainer}>
+                    <Text>
+                      <Text style={styles.maintenanceTitle}>{item.title} </Text>
+                      <Text style={styles.maintenanceDescription}>
+                        {item.description}
+                      </Text>
                     </Text>
-                  </Text>
-                </View>
-              }
-              bottomDivider
-            />
-          ))}
+                  </View>
+                }
+                bottomDivider
+              />
+            ))}
         </ScrollView>
         <FAB
           buttonColor="#F4FF81"
@@ -97,7 +99,8 @@ class MaintenancePage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    maintenances: state.maintenances
+    maintenances: state.maintenances,
+    selectedVehicle: state.selectedVehicle
   };
 };
 

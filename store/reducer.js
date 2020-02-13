@@ -1,6 +1,8 @@
 import * as actions from "./actions";
 
 const initialState = {
+  selectedVehicle: {},
+  vehicles: [],
   fills: [],
   maintenances: []
 };
@@ -17,6 +19,7 @@ addFill = (state, fillInfos) => {
         fillInfos.mileage - state.fills[state.fills.length - 1].mileage
       ))
     : null;
+  fill.vehicle = state.selectedVehicle;
 
   return {
     ...state,
@@ -25,9 +28,24 @@ addFill = (state, fillInfos) => {
 };
 
 addMaintenance = (state, maintenanceInfos) => {
+  maintenanceInfos.vehicle = state.selectedVehicle;
   return {
     ...state,
     maintenances: [...state.maintenances, maintenanceInfos]
+  };
+};
+
+addVehicle = (state, vehicleInfos) => {
+  return {
+    ...state,
+    vehicles: [...state.vehicles, vehicleInfos]
+  };
+};
+
+selectVehicle = (state, selectedVehicle) => {
+  return {
+    ...state,
+    selectedVehicle: state.vehicles.indexOf(selectedVehicle)
   };
 };
 
@@ -37,6 +55,10 @@ const reducer = (state = initialState, action) => {
       return addFill(state, action.fillInfos);
     case actions.ADD_MAINTENANCE:
       return addMaintenance(state, action.maintenanceInfos);
+    case actions.ADD_VEHICLE:
+      return addVehicle(state, action.vehicleInfos);
+    case actions.SELECT_VEHICLE:
+      return selectVehicle(state, action.selectedVehicle);
   }
   return state;
 };

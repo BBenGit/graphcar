@@ -1,9 +1,10 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { Icon, ListItem } from "react-native-elements";
 import FAB from "react-native-fab";
 import AddMaintenanceModal from "../modal/addMaintenance";
 import styles from "./styles";
+import * as colors from "../../style/colors";
 
 import { connect } from "react-redux";
 
@@ -28,36 +29,58 @@ class MaintenancePage extends React.Component {
           printModal={this.state.isAddMaintenanceModalVisible}
           onDisapearCallback={this.toggleAddMaintenanceModal}
         />
-        {this.props.maintenances.map(item => (
-          <ListItem
-            key={item.mileage}
-            title={
-              <Text>
-                <Text style={[styles.fontSize20, styles.borderBottom]}>
-                  {item.date}
-                </Text>
-                <Text style={styles.fontSize20}> / </Text>
-                <Text style={[styles.fontSize20, styles.grey]}>
-                  {" "}
-                  {item.mileage}km
-                </Text>
-              </Text>
-            }
-            subtitle={
-              <View style={styles.fillInfosContainer}>
-                <Text>
-                  <Text style={[styles.maintenanceTitle, styles.borderBottom]}>
-                    {item.title} :{" "}
+        <ScrollView>
+          {this.props.maintenances.map((item, index) => (
+            <ListItem
+              key={index}
+              title={
+                <View style={{ flexDirection: "row" }}>
+                  <View
+                    style={{
+                      borderBottomColor: colors.deepGray,
+                      borderBottomWidth: 1
+                    }}
+                  >
+                    <Text style={styles.fontSize20}>{item.date}</Text>
+                  </View>
+                  <Text style={styles.fontSize20}> / </Text>
+                  <Text style={[styles.fontSize20, styles.grey]}>
+                    {" "}
+                    {item.mileage}km
                   </Text>
-                  <Text style={styles.maintenanceDescription}>
-                    {item.description}
+                  <View style={{ flex: 1, alignItems: "flex-end" }}>
+                    <View
+                      style={{
+                        backgroundColor: colors.deepGray,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderTopLeftRadius: 10,
+                        borderBottomRightRadius: 10,
+                        paddingVertical: 2,
+                        paddingHorizontal: 8
+                      }}
+                    >
+                      <Text style={{ color: "white", fontSize: 18 }}>
+                        {item.price} €
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              }
+              subtitle={
+                <View style={styles.fillInfosContainer}>
+                  <Text>
+                    <Text style={styles.maintenanceTitle}>{item.title} </Text>
+                    <Text style={styles.maintenanceDescription}>
+                      {item.description}
+                    </Text>
                   </Text>
-                </Text>
-              </View>
-            }
-            bottomDivider
-          />
-        ))}
+                </View>
+              }
+              bottomDivider
+            />
+          ))}
+        </ScrollView>
         <FAB
           buttonColor="#F4FF81"
           iconTextColor="#FFFFFF"

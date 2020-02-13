@@ -21,6 +21,7 @@ class AddMaintenanceModal extends React.Component {
 
     this.state = {
       inputMileage: "",
+      inputPrice: "",
       inputTitle: "",
       inputDescription: "",
       inputDate: moment().format("DD/MM/YYYY")
@@ -32,6 +33,7 @@ class AddMaintenanceModal extends React.Component {
       let maintenanceInfos = {
         date: this.state.inputDate,
         mileage: parseInt(this.state.inputMileage),
+        price: parseFloat(this.state.inputPrice.replace(",", ".")),
         title: this.state.inputTitle,
         description: this.state.inputDescription
       };
@@ -40,13 +42,13 @@ class AddMaintenanceModal extends React.Component {
     }
     this.setState({
       inputMileage: "",
+      inputPrice: "",
       inputTitle: "",
       inputDescription: ""
     });
     this.props.onDisapearCallback();
   };
 
-  // todo add price
   render() {
     return (
       <Modal
@@ -106,6 +108,16 @@ class AddMaintenanceModal extends React.Component {
             onChangeText={inputMileage => this.setState({ inputMileage })}
             value={this.state.inputMileage}
             rightIcon={<Text>km</Text>}
+            keyboardType={"numeric"}
+          />
+
+          <Input
+            containerStyle={styles.input}
+            label="prix."
+            placeholder="35.99"
+            onChangeText={inputPrice => this.setState({ inputPrice })}
+            value={this.state.inputPrice}
+            rightIcon={<Text>€</Text>}
             keyboardType={"numeric"}
           />
 

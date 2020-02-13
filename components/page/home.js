@@ -124,7 +124,7 @@ class HomePage extends React.Component {
           <Text
             style={{ color: colors.deepGray, marginTop: 50, marginLeft: 10 }}
           >
-            Ajoutez des données de pleins pour pouvoir voir les graphiques.
+            Ajoutez des données de plein pour pouvoir voir les graphiques.
           </Text>
         )}
       </View>

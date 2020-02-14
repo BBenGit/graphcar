@@ -61,7 +61,7 @@ class GraphCar extends React.Component {
               name="directions-car"
               reverse
               raised
-              size="16"
+              size={16}
               color={colors.deepGray}
               reverseColor={colors.primaryAccent}
               onPress={this.toggleVehicleSelectionModal}

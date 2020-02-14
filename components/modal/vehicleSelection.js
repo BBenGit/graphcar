@@ -112,7 +112,7 @@ class VehicleSelection extends React.Component {
           </Text>
           <Icon
             name="add"
-            size="18"
+            size={18}
             color={colors.primaryAccent}
             containerStyle={{
               flex: 1,

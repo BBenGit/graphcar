@@ -83,15 +83,17 @@ class MaintenancePage extends React.Component {
               />
             ))}
         </ScrollView>
-        <FAB
-          buttonColor="#F4FF81"
-          iconTextColor="#FFFFFF"
-          onClickAction={() => {
-            this.toggleAddMaintenanceModal();
-          }}
-          visible={true}
-          iconTextComponent={<Icon name="add" />}
-        />
+        {this.props.selectedVehicle >= 0 ? (
+          <FAB
+            buttonColor="#F4FF81"
+            iconTextColor="#FFFFFF"
+            onClickAction={() => {
+              this.toggleAddMaintenanceModal();
+            }}
+            visible={true}
+            iconTextComponent={<Icon name="add" />}
+          />
+        ) : null}
       </View>
     );
   }

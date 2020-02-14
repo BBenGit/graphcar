@@ -19,7 +19,8 @@ class GraphCar extends React.Component {
     super(props);
     this.state = {
       index: 0,
-      isVehicleSelectionModalVisible: false,
+      isVehicleSelectionModalVisible:
+        this.props.selectedVehicle >= 0 ? false : true,
       routes: [
         { key: "home", name: "acceuil" },
         { key: "fills", name: "pleins" },

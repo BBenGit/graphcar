@@ -1,7 +1,7 @@
 import * as actions from "./actions";
 
 const initialState = {
-  selectedVehicle: {},
+  selectedVehicle: -1,
   vehicles: [],
   fills: [],
   maintenances: []

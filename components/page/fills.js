@@ -66,15 +66,17 @@ class FillsPage extends React.Component {
               />
             ))}
         </ScrollView>
-        <FAB
-          buttonColor="#F4FF81"
-          iconTextColor="#FFFFFF"
-          onClickAction={() => {
-            this.toggleAddFillModal();
-          }}
-          visible
-          iconTextComponent={<Icon name="add" />}
-        />
+        {this.props.selectedVehicle >= 0 ? (
+          <FAB
+            buttonColor="#F4FF81"
+            iconTextColor="#FFFFFF"
+            onClickAction={() => {
+              this.toggleAddFillModal();
+            }}
+            visible
+            iconTextComponent={<Icon name="add" />}
+          />
+        ) : null}
       </View>
     );
   }

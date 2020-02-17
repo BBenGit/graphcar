@@ -8,6 +8,7 @@ import { AreaChart, Grid, YAxis } from "react-native-svg-charts";
 import { Path } from "react-native-svg";
 import * as shape from "d3-shape";
 import * as colors from "../../style/colors";
+import { computeConsumption, computePricePerLitre } from "../../utility";
 
 const Line = ({ line }) => (
   <Path key={"line"} d={line} stroke={colors.secondaryAccent} fill={"none"} />
@@ -23,33 +24,9 @@ class HomePage extends React.Component {
     };
   }
 
-  // componentDidMount = () => {
-  //   this.refreshData();
-  // };
-
-  // refreshData = () => {
-  //   let fills = this.props.fills.filter(
-  //     fill => fill.vehicle === this.props.selectedVehicle
-  //   );
-  //   let prices = fills.map(fill => fill.pricePerLitre);
-  //   let consumptions = fills
-  //     .map(fill => fill.consumption)
-  //     .filter(fill => fill != null);
-  //   this.setState({ prices: prices, consumptions: consumptions });
-  // };
-
   render() {
     return (
       <View style={styles.scene}>
-        {/* <FAB
-          buttonColor={colors.primaryAccent}
-          onClickAction={() => {
-            this.refreshData();
-          }}
-          visible
-          iconTextComponent={<Icon name="refresh" />}
-        /> */}
-
         {this.props.fills.filter(f => f.vehicle === this.props.selectedVehicle)
           .length > 0 ? (
           <View>
@@ -66,7 +43,7 @@ class HomePage extends React.Component {
                 <YAxis
                   data={this.props.fills
                     .filter(fill => fill.vehicle === this.props.selectedVehicle)
-                    .map(fill => fill.pricePerLitre)}
+                    .map(fill => computePricePerLitre(fill))}
                   contentInset={{ top: 20, bottom: 20 }}
                   svg={{
                     fill: "grey",
@@ -80,7 +57,7 @@ class HomePage extends React.Component {
                   style={{ flex: 1, marginLeft: 16 }}
                   data={this.props.fills
                     .filter(fill => fill.vehicle === this.props.selectedVehicle)
-                    .map(fill => fill.pricePerLitre)}
+                    .map(fill => computePricePerLitre(fill))}
                   svg={{ fill: colors.secondaryAccentTransparent }}
                   contentInset={{ top: 20, bottom: 20 }}
                   curve={shape.curveNatural}
@@ -104,8 +81,11 @@ class HomePage extends React.Component {
                 <YAxis
                   data={this.props.fills
                     .filter(fill => fill.vehicle === this.props.selectedVehicle)
-                    .map(fill => fill.consumption)
-                    .filter(fill => fill != null)}
+                    .map(fill => computeConsumption(fill, this.props.fills))
+                    .filter(
+                      consumption =>
+                        consumption != undefined && !isNaN(consumption)
+                    )}
                   contentInset={{ top: 20, bottom: 20 }}
                   svg={{
                     fill: "grey",
@@ -122,8 +102,11 @@ class HomePage extends React.Component {
                       .filter(
                         fill => fill.vehicle === this.props.selectedVehicle
                       )
-                      .map(fill => fill.consumption)
-                      .filter(fill => fill != null)}
+                      .map(fill => computeConsumption(fill, this.props.fills))
+                      .filter(
+                        consumption =>
+                          consumption != undefined && !isNaN(consumption)
+                      )}
                     svg={{ fill: colors.secondaryAccentTransparent }}
                     contentInset={{ top: 20, bottom: 20 }}
                     curve={shape.curveNatural}

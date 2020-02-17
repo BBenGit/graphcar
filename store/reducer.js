@@ -7,18 +7,8 @@ const initialState = {
   maintenances: []
 };
 
-computeConsumption = (fillQuantity, fillDistance) => {
-  return Math.round(((100 * fillQuantity) / fillDistance) * 100) / 100;
-};
-
 addFill = (state, fillInfos) => {
   let fill = { ...fillInfos };
-  state.fills.length > 0
-    ? (fill.consumption = computeConsumption(
-        fillInfos.quantity,
-        fillInfos.mileage - state.fills[state.fills.length - 1].mileage
-      ))
-    : null;
   fill.vehicle = state.selectedVehicle;
 
   return {
@@ -49,6 +39,16 @@ selectVehicle = (state, selectedVehicle) => {
   };
 };
 
+editFill = (state, fill, index) => {
+  let updatedFills = [...state.fills];
+  updatedFills[index] = fill;
+  console.log(updatedFills);
+  return {
+    ...state,
+    fills: updatedFills
+  };
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.ADD_FILL:
@@ -59,6 +59,8 @@ const reducer = (state = initialState, action) => {
       return addVehicle(state, action.vehicleInfos);
     case actions.SELECT_VEHICLE:
       return selectVehicle(state, action.selectedVehicle);
+    case actions.EDIT_FILL:
+      return editFill(state, action.fill, action.index);
   }
   return state;
 };

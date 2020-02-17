@@ -4,50 +4,65 @@ import { Input, Button, colors } from "react-native-elements";
 import Modal from "react-native-modal";
 import { styles } from "./styles";
 import DatePicker from "react-native-datepicker";
-import { prepareFill } from "../../utility";
 
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import moment from "moment";
+import { prepareFill } from "../../utility";
 
-const defaultState = {
-  inputMileage: "",
-  inputAmount: "",
-  inputQuantity: "",
-  inputDate: moment().format("DD/MM/YYYY")
-};
-
-class AddFillModal extends React.Component {
+class EditFillModal extends React.Component {
   /*
     props: {
       printModal
       onDisapearCallback
+      fillToEdit
     }
   */
   constructor(props) {
     super(props);
 
-    this.state = defaultState;
+    this.state = {
+      inputMileage: "",
+      inputAmount: "",
+      inputQuantity: "",
+      inputDate: "",
+      fillIndex: 0
+    };
   }
 
-  addFill = () => {
+  componentDidMount() {
+    this.props.shareMethods(this.setInputs.bind(this));
+  }
+
+  setInputs = (fill, index) => {
+    this.setState({
+      inputMileage: fill.mileage.toString(),
+      inputAmount: fill.amount.toString(),
+      inputQuantity: fill.quantity.toString(),
+      inputDate: fill.date,
+      vehicle: fill.vehicle,
+      fillIndex: index
+    });
+  };
+
+  editFill = () => {
     if (
       Boolean(this.state.inputMileage) &
       Boolean(this.state.inputAmount) &
       Boolean(this.state.inputQuantity) &
       Boolean(this.state.inputDate)
     ) {
-      this.props.onAddFill(
+      this.props.onEditFill(
         prepareFill(
           this.state.inputMileage,
           this.state.inputAmount,
           this.state.inputQuantity,
-          this.state.inputDate
-        )
+          this.state.inputDate,
+          this.state.vehicle
+        ),
+        this.state.fillIndex
       );
     }
-
-    this.setState(defaultState);
     this.props.onDisapearCallback();
   };
 
@@ -126,8 +141,8 @@ class AddFillModal extends React.Component {
           />
           <View style={styles.buttonViewContainer}>
             <Button
-              title="Ajouter plein"
-              onPress={this.addFill}
+              title="Mettre à jour"
+              onPress={this.editFill}
               buttonStyle={styles.button}
               titleStyle={styles.buttonTitle}
               raised
@@ -139,11 +154,18 @@ class AddFillModal extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    onAddFill: fillInfos =>
-      dispatch({ type: actions.ADD_FILL, fillInfos: fillInfos })
+    vehicles: state.vehicles,
+    selectedVehicle: state.selectedVehicle
   };
 };
 
-export default connect(null, mapDispatchToProps)(AddFillModal);
+const mapDispatchToProps = dispatch => {
+  return {
+    onEditFill: (fill, index) =>
+      dispatch({ type: actions.EDIT_FILL, fill: fill, index: index })
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditFillModal);

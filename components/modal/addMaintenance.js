@@ -8,6 +8,15 @@ import DatePicker from "react-native-datepicker";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import moment from "moment";
+import { prepareMaintenance } from "../../utility";
+
+const initState = {
+  inputMileage: "",
+  inputPrice: "",
+  inputTitle: "",
+  inputDescription: "",
+  inputDate: moment().format("DD/MM/YYYY")
+};
 
 class AddMaintenanceModal extends React.Component {
   /*
@@ -19,33 +28,22 @@ class AddMaintenanceModal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      inputMileage: "",
-      inputPrice: "",
-      inputTitle: "",
-      inputDescription: "",
-      inputDate: moment().format("DD/MM/YYYY")
-    };
+    this.state = initState;
   }
 
   addMaintenance = () => {
     if (Boolean(this.state.inputMileage) & Boolean(this.state.inputTitle)) {
-      let maintenanceInfos = {
-        date: this.state.inputDate,
-        mileage: parseInt(this.state.inputMileage),
-        price: parseFloat(this.state.inputPrice.replace(",", ".")),
-        title: this.state.inputTitle,
-        description: this.state.inputDescription
-      };
-
-      this.props.onAddMaintenance(maintenanceInfos);
+      this.props.onAddMaintenance(
+        prepareMaintenance(
+          this.state.inputMileage,
+          this.state.inputPrice,
+          this.state.inputTitle,
+          this.state.inputDescription,
+          this.state.inputDate
+        )
+      );
     }
-    this.setState({
-      inputMileage: "",
-      inputPrice: "",
-      inputTitle: "",
-      inputDescription: ""
-    });
+    this.setState(initState);
     this.props.onDisapearCallback();
   };
 

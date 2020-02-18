@@ -1,15 +1,15 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { Input, Button, colors } from "react-native-elements";
+import { Input, Button } from "react-native-elements";
 import Modal from "react-native-modal";
 import { styles } from "./styles";
 import DatePicker from "react-native-datepicker";
 
 import { connect } from "react-redux";
 import * as actions from "../../store/actions";
-import { prepareFill } from "../../utility";
+import { prepareMaintenance } from "../../utility";
 
-class EditFillModal extends React.Component {
+class EditMaintenanceModal extends React.Component {
   /*
     props: {
       printModal
@@ -27,40 +27,37 @@ class EditFillModal extends React.Component {
     this.props.shareMethods(this.setInputs.bind(this));
   }
 
-  setInputs = (fill, index) => {
+  setInputs = (maintenance, index) => {
     this.setState({
-      inputMileage: fill.mileage.toString(),
-      inputAmount: fill.amount.toString(),
-      inputQuantity: fill.quantity.toString(),
-      inputDate: fill.date,
-      vehicle: fill.vehicle,
-      fillIndex: index
+      inputMileage: maintenance.mileage.toString(),
+      inputPrice: maintenance.price.toString(),
+      inputTitle: maintenance.title,
+      inputDescription: maintenance.description,
+      inputDate: maintenance.date,
+      vehicle: maintenance.vehicle,
+      maintenanceIndex: index
     });
   };
 
-  editFill = () => {
-    if (
-      Boolean(this.state.inputMileage) &
-      Boolean(this.state.inputAmount) &
-      Boolean(this.state.inputQuantity) &
-      Boolean(this.state.inputDate)
-    ) {
-      this.props.onEditFill(
-        prepareFill(
+  editMaintenance = () => {
+    if (Boolean(this.state.inputMileage) & Boolean(this.state.inputTitle)) {
+      this.props.onEditMaintenance(
+        prepareMaintenance(
           this.state.inputMileage,
-          this.state.inputAmount,
-          this.state.inputQuantity,
+          this.state.inputPrice,
+          this.state.inputTitle,
+          this.state.inputDescription,
           this.state.inputDate,
           this.state.vehicle
         ),
-        this.state.fillIndex
+        this.state.maintenanceIndex
       );
     }
     this.props.onDisapearCallback();
   };
 
-  removeFill = () => {
-    this.props.onRemoveFill(this.state.fillIndex);
+  removeMaintenance = () => {
+    this.props.onRemoveMaintenance(this.state.maintenanceIndex);
     this.props.onDisapearCallback();
   };
 
@@ -110,6 +107,14 @@ class EditFillModal extends React.Component {
 
           <Input
             containerStyle={styles.input}
+            label="titre."
+            placeholder="Vidange"
+            onChangeText={inputTitle => this.setState({ inputTitle })}
+            value={this.state.inputTitle}
+          />
+
+          <Input
+            containerStyle={styles.input}
             label="kilométrage."
             placeholder="36890"
             onChangeText={inputMileage => this.setState({ inputMileage })}
@@ -120,39 +125,38 @@ class EditFillModal extends React.Component {
 
           <Input
             containerStyle={styles.input}
-            label="montant."
-            placeholder="51.45"
-            onChangeText={inputAmount => this.setState({ inputAmount })}
-            value={this.state.inputAmount}
+            label="prix."
+            placeholder="35.99"
+            onChangeText={inputPrice => this.setState({ inputPrice })}
+            value={this.state.inputPrice}
             rightIcon={<Text>€</Text>}
             keyboardType={"numeric"}
           />
 
           <Input
             containerStyle={styles.input}
-            label="quantité."
-            placeholder="37.60"
-            onChangeText={inputQuantity => this.setState({ inputQuantity })}
-            value={this.state.inputQuantity}
-            rightIcon={<Text>L</Text>}
-            keyboardType={"numeric"}
+            label="description."
+            placeholder="Changement cartouche à huile et huile 10w40."
+            onChangeText={inputDescription =>
+              this.setState({ inputDescription })
+            }
+            value={this.state.inputDescription}
+            multiline
           />
           <View style={styles.buttonViewContainer}>
             <Button
-              title="Supprimer plein"
-              onPress={this.removeFill}
+              title="Supprimer entretien"
+              onPress={this.removeMaintenance}
               buttonStyle={styles.alertButton}
               titleStyle={styles.alertButtonTitle}
-              containerStyle={{ flex: 10 }}
               raised
             />
-            <View style={{ flex: 1 }}></View>
+            <View style={{ flex: 1 }} />
             <Button
               title="Mettre à jour"
-              onPress={this.editFill}
+              onPress={this.editMaintenance}
               buttonStyle={styles.button}
               titleStyle={styles.buttonTitle}
-              containerStyle={{ flex: 10 }}
               raised
             />
           </View>
@@ -162,19 +166,20 @@ class EditFillModal extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    vehicles: state.vehicles,
-    selectedVehicle: state.selectedVehicle
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    onEditFill: (fill, index) =>
-      dispatch({ type: actions.EDIT_FILL, fill: fill, index: index }),
-    onRemoveFill: index => dispatch({ type: actions.REMOVE_FILL, index: index })
+    onEditMaintenance: (maintenance, index) =>
+      dispatch({
+        type: actions.EDIT_MAINTENANCE,
+        maintenance: maintenance,
+        index: index
+      }),
+    onRemoveMaintenance: index =>
+      dispatch({
+        type: actions.REMOVE_MAINTENANCE,
+        index: index
+      })
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditFillModal);
+export default connect(null, mapDispatchToProps)(EditMaintenanceModal);

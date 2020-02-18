@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from "react-native";
 import { Icon, ListItem } from "react-native-elements";
 import FAB from "react-native-fab";
 import AddMaintenanceModal from "../modal/addMaintenance";
+import EditMaintenanceModal from "../modal/editMaintenance";
 import styles from "./styles";
 import * as colors from "../../style/colors";
 
@@ -12,14 +13,30 @@ class MaintenancePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAddMaintenanceModalVisible: false
+      isAddMaintenanceModalVisible: false,
+      isEditMaintenanceModalVisible: false
     };
   }
+
+  acceptChildMethod = childSetInputs => {
+    this.childSetInputs = childSetInputs;
+  };
 
   toggleAddMaintenanceModal = () => {
     this.setState({
       isAddMaintenanceModalVisible: !this.state.isAddMaintenanceModalVisible
     });
+  };
+
+  toggleEditMaintenanceModal = () => {
+    this.setState({
+      isEditMaintenanceModalVisible: !this.state.isEditMaintenanceModalVisible
+    });
+  };
+
+  onListItemPressed = (item, index) => {
+    this.childSetInputs(item, index);
+    this.toggleEditMaintenanceModal();
   };
 
   render() {
@@ -28,6 +45,11 @@ class MaintenancePage extends React.Component {
         <AddMaintenanceModal
           printModal={this.state.isAddMaintenanceModalVisible}
           onDisapearCallback={this.toggleAddMaintenanceModal}
+        />
+        <EditMaintenanceModal
+          printModal={this.state.isEditMaintenanceModalVisible}
+          onDisapearCallback={this.toggleEditMaintenanceModal}
+          shareMethods={this.acceptChildMethod.bind(this)}
         />
         <ScrollView>
           {this.props.maintenances
@@ -45,9 +67,11 @@ class MaintenancePage extends React.Component {
                     >
                       <Text style={styles.fontSize20}>{item.date}</Text>
                     </View>
-                    <Text style={styles.fontSize20}> / </Text>
+                    <Icon
+                      name="timeline"
+                      containerStyle={{ marginHorizontal: 10 }}
+                    />
                     <Text style={[styles.fontSize20, styles.grey]}>
-                      {" "}
                       {item.mileage}km
                     </Text>
                     <View style={{ flex: 1, alignItems: "flex-end" }}>
@@ -79,6 +103,7 @@ class MaintenancePage extends React.Component {
                     </Text>
                   </View>
                 }
+                onPress={() => this.onListItemPressed(item, index)}
                 bottomDivider
               />
             ))}

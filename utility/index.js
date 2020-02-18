@@ -33,3 +33,21 @@ export const prepareFill = (
     vehicle: vehicle
   };
 };
+
+export const prepareMaintenance = (
+  inputMileage,
+  inputPrice,
+  inputTitle,
+  inputDescription,
+  inputDate,
+  vehicle
+) => {
+  return {
+    date: inputDate,
+    mileage: parseInt(inputMileage),
+    price: parseFloat(inputPrice.replace(",", ".")),
+    title: inputTitle,
+    description: inputDescription,
+    vehicle: vehicle
+  };
+};

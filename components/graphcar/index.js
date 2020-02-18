@@ -70,9 +70,10 @@ class GraphCar extends React.Component {
             />
           }
           centerComponent={{
-            text: this.props.vehicles[this.props.selectedVehicle]
-              ? this.props.vehicles[this.props.selectedVehicle].title
-              : "graphcar."
+            text:
+              this.props.selectedVehicle === -1
+                ? "graphcar."
+                : this.props.vehicles[this.props.selectedVehicle].title
           }}
           selected
           backgroundColor="#ECEFF1"

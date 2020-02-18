@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
     padding: "5%"
   },
   buttonViewContainer: {
-    marginTop: 10
+    marginTop: 10,
+    flexDirection: "row"
   },
   icon: {
     marginRight: 5
@@ -15,8 +16,14 @@ export const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.primaryAccent
   },
+  alertButton: {
+    backgroundColor: colors.secondaryAccent
+  },
   buttonTitle: {
     color: colors.deepGray
+  },
+  alertButtonTitle: {
+    color: "#9b0000"
   },
   input: {
     marginBottom: 20

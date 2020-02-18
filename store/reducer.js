@@ -10,7 +10,6 @@ const initialState = {
 addFill = (state, fillInfos) => {
   let fill = { ...fillInfos };
   fill.vehicle = state.selectedVehicle;
-
   return {
     ...state,
     fills: [...state.fills, fill]
@@ -42,11 +41,16 @@ selectVehicle = (state, selectedVehicle) => {
 editFill = (state, fill, index) => {
   let updatedFills = [...state.fills];
   updatedFills[index] = fill;
-  console.log(updatedFills);
   return {
     ...state,
     fills: updatedFills
   };
+};
+
+removeFill = (state, index) => {
+  let updatedFills = [...state.fills];
+  updatedFills.splice(index, 1);
+  return { ...state, fills: updatedFills };
 };
 
 const reducer = (state = initialState, action) => {
@@ -61,6 +65,8 @@ const reducer = (state = initialState, action) => {
       return selectVehicle(state, action.selectedVehicle);
     case actions.EDIT_FILL:
       return editFill(state, action.fill, action.index);
+    case actions.REMOVE_FILL:
+      return removeFill(state, action.index);
   }
   return state;
 };

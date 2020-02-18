@@ -66,6 +66,11 @@ class EditFillModal extends React.Component {
     this.props.onDisapearCallback();
   };
 
+  removeFill = () => {
+    this.props.onRemoveFill(this.state.fillIndex);
+    this.props.onDisapearCallback();
+  };
+
   render() {
     return (
       <Modal
@@ -141,10 +146,20 @@ class EditFillModal extends React.Component {
           />
           <View style={styles.buttonViewContainer}>
             <Button
+              title="Supprimer plein"
+              onPress={this.removeFill}
+              buttonStyle={styles.alertButton}
+              titleStyle={styles.alertButtonTitle}
+              containerStyle={{ flex: 10 }}
+              raised
+            />
+            <View style={{ flex: 1 }}></View>
+            <Button
               title="Mettre à jour"
               onPress={this.editFill}
               buttonStyle={styles.button}
               titleStyle={styles.buttonTitle}
+              containerStyle={{ flex: 10 }}
               raised
             />
           </View>
@@ -164,7 +179,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onEditFill: (fill, index) =>
-      dispatch({ type: actions.EDIT_FILL, fill: fill, index: index })
+      dispatch({ type: actions.EDIT_FILL, fill: fill, index: index }),
+    onRemoveFill: index => dispatch({ type: actions.REMOVE_FILL, index: index })
   };
 };
 

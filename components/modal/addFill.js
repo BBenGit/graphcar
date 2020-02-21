@@ -129,6 +129,7 @@ class AddFillModal extends React.Component {
               title="Ajouter plein"
               onPress={this.addFill}
               buttonStyle={styles.button}
+              containerStyle={{ flex: 1 }}
               titleStyle={styles.buttonTitle}
               raised
             />

@@ -137,22 +137,21 @@ class EditFillModal extends React.Component {
             rightIcon={<Text>L</Text>}
             keyboardType={"numeric"}
           />
-          <View style={styles.buttonViewContainer}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
             <Button
               title="Supprimer plein"
               onPress={this.removeFill}
               buttonStyle={styles.alertButton}
               titleStyle={styles.alertButtonTitle}
-              containerStyle={{ flex: 10 }}
               raised
             />
-            <View style={{ flex: 1 }}></View>
             <Button
               title="Mettre à jour"
               onPress={this.editFill}
               buttonStyle={styles.button}
               titleStyle={styles.buttonTitle}
-              containerStyle={{ flex: 10 }}
               raised
             />
           </View>

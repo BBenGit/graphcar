@@ -135,6 +135,7 @@ class AddMaintenanceModal extends React.Component {
               onPress={this.addMaintenance}
               buttonStyle={styles.button}
               titleStyle={styles.buttonTitle}
+              containerStyle={{ flex: 1 }}
               raised
             />
           </View>

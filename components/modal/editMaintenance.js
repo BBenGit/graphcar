@@ -143,7 +143,9 @@ class EditMaintenanceModal extends React.Component {
             value={this.state.inputDescription}
             multiline
           />
-          <View style={styles.buttonViewContainer}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
             <Button
               title="Supprimer entretien"
               onPress={this.removeMaintenance}
@@ -151,7 +153,6 @@ class EditMaintenanceModal extends React.Component {
               titleStyle={styles.alertButtonTitle}
               raised
             />
-            <View style={{ flex: 1 }} />
             <Button
               title="Mettre à jour"
               onPress={this.editMaintenance}

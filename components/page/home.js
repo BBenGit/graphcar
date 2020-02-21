@@ -2,13 +2,18 @@ import * as React from "react";
 import { View, Dimensions } from "react-native";
 import styles from "./styles";
 import { connect } from "react-redux";
-import FAB from "react-native-fab";
-import { Icon, Text, Card } from "react-native-elements";
+import { Text, Card } from "react-native-elements";
 import { AreaChart, Grid, YAxis } from "react-native-svg-charts";
 import { Path } from "react-native-svg";
 import * as shape from "d3-shape";
 import * as colors from "../../style/colors";
-import { computeConsumption, computePricePerLitre } from "../../utility";
+import {
+  computeItemConsumption,
+  computePricePerLitre,
+  computeTotalFuelAmount,
+  computeTotalMaintenancePrice,
+  computeAverageConsumption
+} from "../../utility";
 
 const Line = ({ line }) => (
   <Path key={"line"} d={line} stroke={colors.secondaryAccent} fill={"none"} />
@@ -17,11 +22,6 @@ const Line = ({ line }) => (
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      prices: [],
-      consumptions: []
-    };
   }
 
   render() {
@@ -29,8 +29,39 @@ class HomePage extends React.Component {
       <View style={styles.scene}>
         {this.props.fills.filter(f => f.vehicle === this.props.selectedVehicle)
           .length > 0 ? (
-          <View>
-            <Card>
+          <View style={{ flex: 1, marginBottom: 20 }}>
+            <Card title="Infos">
+              <View style={styles.row}>
+                <View style={{ flex: 2 }}>
+                  <Text style={styles.textAlignLeft}>Consommation moyenne</Text>
+                  <Text style={styles.textAlignLeft}>
+                    Coût total de carburant
+                  </Text>
+                  <Text style={styles.textAlignLeft}>
+                    Coût total de maintenance
+                  </Text>
+                </View>
+                <View style={styles.fillDescLeft}>
+                  <Text style={styles.textAlignRight}>
+                    {computeAverageConsumption(this.props.fills)}
+                  </Text>
+                  <Text style={styles.textAlignRight}>
+                    {computeTotalFuelAmount(this.props.fills)}
+                  </Text>
+                  <Text style={styles.textAlignRight}>
+                    {computeTotalMaintenancePrice(this.props.maintenances)}
+                  </Text>
+                </View>
+                <View style={styles.fillDescRight}>
+                  <Text style={[styles.grey, styles.textAlignLeft]}>
+                    | L / 100km
+                  </Text>
+                  <Text style={[styles.grey, styles.textAlignLeft]}>| €</Text>
+                  <Text style={[styles.grey, styles.textAlignLeft]}>| €</Text>
+                </View>
+              </View>
+            </Card>
+            <Card containerStyle={{ flex: 1 }}>
               <Text
                 style={{
                   color: colors.deepGray,
@@ -39,7 +70,13 @@ class HomePage extends React.Component {
               >
                 Prix du carburant
               </Text>
-              <View style={{ height: 200, flexDirection: "row" }}>
+              <View
+                style={{
+                  height: "100%",
+                  marginBottom: -35,
+                  flexDirection: "row"
+                }}
+              >
                 <YAxis
                   data={this.props.fills
                     .filter(fill => fill.vehicle === this.props.selectedVehicle)
@@ -68,7 +105,7 @@ class HomePage extends React.Component {
               </View>
             </Card>
 
-            <Card>
+            <Card containerStyle={{ flex: 1 }}>
               <Text
                 style={{
                   color: colors.deepGray,
@@ -77,11 +114,17 @@ class HomePage extends React.Component {
               >
                 Consomation
               </Text>
-              <View style={{ height: 200, flexDirection: "row" }}>
+              <View
+                style={{
+                  height: "100%",
+                  marginBottom: -35,
+                  flexDirection: "row"
+                }}
+              >
                 <YAxis
                   data={this.props.fills
                     .filter(fill => fill.vehicle === this.props.selectedVehicle)
-                    .map(fill => computeConsumption(fill, this.props.fills))
+                    .map(fill => computeItemConsumption(fill, this.props.fills))
                     .filter(
                       consumption =>
                         consumption != undefined && !isNaN(consumption)
@@ -92,7 +135,7 @@ class HomePage extends React.Component {
                     fontSize: 10
                   }}
                   numberOfTicks={10}
-                  formatLabel={value => `${value}€`}
+                  formatLabel={value => `${value}L`}
                   style={{ paddingLeft: 10 }}
                 />
                 <View style={{ flex: 1, marginLeft: 10 }}>
@@ -102,7 +145,9 @@ class HomePage extends React.Component {
                       .filter(
                         fill => fill.vehicle === this.props.selectedVehicle
                       )
-                      .map(fill => computeConsumption(fill, this.props.fills))
+                      .map(fill =>
+                        computeItemConsumption(fill, this.props.fills)
+                      )
                       .filter(
                         consumption =>
                           consumption != undefined && !isNaN(consumption)
@@ -133,6 +178,7 @@ class HomePage extends React.Component {
 const mapStateToProps = state => {
   return {
     fills: state.fills,
+    maintenances: state.maintenances,
     selectedVehicle: state.selectedVehicle
   };
 };

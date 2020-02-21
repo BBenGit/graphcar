@@ -5,7 +5,7 @@ import FAB from "react-native-fab";
 import AddFillModal from "../modal/addFill";
 import EditFillModal from "../modal/editFill";
 import styles from "./styles";
-import { computeConsumption, computePricePerLitre } from "../../utility";
+import { computeItemConsumption, computePricePerLitre } from "../../utility";
 
 import { connect } from "react-redux";
 
@@ -69,7 +69,7 @@ class FillsPage extends React.Component {
                       </Text>
                       <Text style={styles.textAlignRight}>{item.amount}</Text>
                       <Text style={styles.textAlignRight}>
-                        {computeConsumption(item, this.props.fills) || "? "}
+                        {computeItemConsumption(item, this.props.fills) || "? "}
                       </Text>
                     </View>
                     <View style={styles.fillDescRight}>

@@ -21,7 +21,10 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.independant.graphcar"
+      "package": "com.independant.graphcar",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png"
+      }
     }
   }
 }

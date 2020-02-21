@@ -72,7 +72,7 @@ class FillsPage extends React.Component {
                         {computeItemConsumption(item, this.props.fills) || "? "}
                       </Text>
                     </View>
-                    <View style={styles.fillDescRight}>
+                    <View style={{ alignSelf: "flex-end" }}>
                       <Text style={[styles.grey, styles.textAlignLeft]}>
                         | € / litre
                       </Text>

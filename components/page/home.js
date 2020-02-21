@@ -30,9 +30,9 @@ class HomePage extends React.Component {
         {this.props.fills.filter(f => f.vehicle === this.props.selectedVehicle)
           .length > 0 ? (
           <View style={{ flex: 1, marginBottom: 20 }}>
-            <Card title="Infos">
+            <Card>
               <View style={styles.row}>
-                <View style={{ flex: 2 }}>
+                <View style={{ flex: 1 }}>
                   <Text style={styles.textAlignLeft}>Consommation moyenne</Text>
                   <Text style={styles.textAlignLeft}>
                     Coût total de carburant
@@ -41,7 +41,7 @@ class HomePage extends React.Component {
                     Coût total de maintenance
                   </Text>
                 </View>
-                <View style={styles.fillDescLeft}>
+                <View style={{ alignSelf: "flex-end", marginRight: 5 }}>
                   <Text style={styles.textAlignRight}>
                     {computeAverageConsumption(this.props.fills)}
                   </Text>
@@ -52,7 +52,7 @@ class HomePage extends React.Component {
                     {computeTotalMaintenancePrice(this.props.maintenances)}
                   </Text>
                 </View>
-                <View style={styles.fillDescRight}>
+                <View style={{ alignSelf: "flex-end" }}>
                   <Text style={[styles.grey, styles.textAlignLeft]}>
                     | L / 100km
                   </Text>

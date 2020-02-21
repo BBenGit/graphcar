@@ -1,7 +1,9 @@
+const roundFloat = (float, decimalsNumber) => {
+  return Number(float.toFixed(decimalsNumber));
+};
+
 const computeConsumption = (fuelQuantity, currMileage, prevMileage) => {
-  return (
-    Math.round(((100 * fuelQuantity) / (currMileage - prevMileage)) * 100) / 100
-  );
+  return roundFloat((100 * fuelQuantity) / (currMileage - prevMileage), 2);
 };
 
 export const computeItemConsumption = (item, fills) => {
@@ -14,10 +16,7 @@ export const computeItemConsumption = (item, fills) => {
 };
 
 export const computePricePerLitre = fill => {
-  return (
-    Math.round((parseFloat(fill.amount) / parseFloat(fill.quantity)) * 1000) /
-    1000
-  );
+  return roundFloat(parseFloat(fill.amount) / parseFloat(fill.quantity), 3);
 };
 
 export const prepareFill = (
@@ -63,17 +62,23 @@ export const computeAverageConsumption = fills => {
       fills[i - 1].mileage
     );
   }
-  return Math.round((totalConsumption / (fills.length - 1)) * 100) / 100;
+  return roundFloat(totalConsumption / (fills.length - 1), 2);
 };
 
 export const computeTotalFuelAmount = fills => {
-  return fills
-    .map(f => f.amount)
-    .reduce((accumulator, currentValue) => accumulator + currentValue);
+  return roundFloat(
+    fills
+      .map(f => f.amount)
+      .reduce((accumulator, currentValue) => accumulator + currentValue),
+    2
+  );
 };
 
 export const computeTotalMaintenancePrice = maintenances => {
-  return maintenances
-    .map(m => m.price)
-    .reduce((accumulator, currentValue) => accumulator + currentValue);
+  return roundFloat(
+    maintenances
+      .map(m => m.price)
+      .reduce((accumulator, currentValue) => accumulator + currentValue),
+    2
+  );
 };

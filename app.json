@@ -23,7 +23,8 @@
     "android": {
       "package": "com.independant.graphcar",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png"
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#ffffff"
       }
     }
   }

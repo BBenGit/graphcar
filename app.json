@@ -21,11 +21,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.independant.graphcar",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#ffffff"
-      }
+      "package": "com.independant.graphcar"
     }
   }
 }

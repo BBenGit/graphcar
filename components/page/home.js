@@ -43,25 +43,37 @@ class HomePage extends React.Component {
                 </View>
                 <View style={{ alignSelf: "flex-end", marginRight: 5 }}>
                   <Text style={styles.textAlignRight}>
-                    {computeAverageConsumption(
-                      this.props.fills.filter(
-                        f => f.vehicle === this.props.selectedVehicle
-                      )
-                    )}
+                    {this.props.fills.filter(
+                      f => f.vehicle === this.props.selectedVehicle
+                    ).length > 1
+                      ? computeAverageConsumption(
+                          this.props.fills.filter(
+                            f => f.vehicle === this.props.selectedVehicle
+                          )
+                        )
+                      : "-"}
                   </Text>
                   <Text style={styles.textAlignRight}>
-                    {computeTotalFuelAmount(
-                      this.props.fills.filter(
-                        f => f.vehicle === this.props.selectedVehicle
-                      )
-                    )}
+                    {this.props.fills.filter(
+                      f => f.vehicle === this.props.selectedVehicle
+                    ).length
+                      ? computeTotalFuelAmount(
+                          this.props.fills.filter(
+                            f => f.vehicle === this.props.selectedVehicle
+                          )
+                        )
+                      : "-"}
                   </Text>
                   <Text style={styles.textAlignRight}>
-                    {computeTotalMaintenancePrice(
-                      this.props.maintenances.filter(
-                        m => m.vehicle === this.props.selectedVehicle
-                      )
-                    )}
+                    {this.props.maintenances.filter(
+                      m => m.vehicle === this.props.selectedVehicle
+                    ).length
+                      ? computeTotalMaintenancePrice(
+                          this.props.maintenances.filter(
+                            m => m.vehicle === this.props.selectedVehicle
+                          )
+                        )
+                      : "-"}
                   </Text>
                 </View>
                 <View style={{ alignSelf: "flex-end" }}>

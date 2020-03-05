@@ -12,9 +12,23 @@ web-report/
 dist/
 *.log
 
+# Gradle
+android/app/build/
+
+# Android
+.idea
+.gradle
+local.properties
+*.iml
+
 # macOS
 .DS_Store
+ios/Pods
 
 # Locks 
 yarn.lock
 package-lock.json
+
+# Visual studio
+.vscode
+.vs
